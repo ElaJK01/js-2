@@ -1,4 +1,44 @@
 
+# Assignment - JS 2
+
+***
+
+## Configuration steps
+
+<details>
+
+* Create a repository based on your final JS#1 repository.
+* Copy this README.md contents to your JS#2 README.md
+* Add Ramda to your project.
+
+</details>
+
+## Assignment goal
+
+<details>
+
+The goal of this assignment is to show, in, practice, how taking advantage of the functional paradigm via Ramda can simplify complex operations. Also, this assingment should serve as a stepping stone towards functional programming, or a solid rehash of Ramda basics.
+
+</details>
+
+## Formal requirements
+
+<details>
+
+***KEEP IN MIND***: Keep your functions as simple as possible, subdivide code when possible, reuse functions whenever feasible.
+
+Pay close attention to code quality, as it will be checked more strictly for this assignment - if anything about Ramda or functional concepts is unclear, please contact me so we can discuss it.
+
+* Assignment #2 carries over the same formal requirements as Assingment #1, with some additions.
+* Project should be refactored to take advantage of Ramda wherever possible.
+* There shouldn't be any left over duplicated code fragments
+* Code should remain clean and readable, with helpers appropriately separated out
+
+
+</details>
+
+
+
 # Assignment - JS 1
 
 ***
