@@ -1,15 +1,9 @@
+import { add, map, prop, reduce } from "ramda";
+
 export const namesList = (element) => {
-  return element.map((el) => {
-    const { name } = el;
-    return name;
-  });
+  return map(prop("name"), element);
 };
 
 export const reducedScore = (element) => {
-  return element
-    .map((el) => {
-      const { score } = el;
-      return score;
-    })
-    .reduce((prevScore, nextScore) => prevScore + nextScore);
+  return reduce(add, 0, map(prop("score"), element));
 };
