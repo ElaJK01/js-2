@@ -1,5 +1,5 @@
 import { first } from "../data.js";
-import { flatten, map, zipObj } from "ramda";
+import { flatten, join, map, zipObj } from "ramda";
 import { namesList, reducedScore } from "../helpers.js";
 
 const names = flatten(map((el) => namesList(el), first));
@@ -53,7 +53,7 @@ const reduceElement = (element) => {
     ["averageScore", "names"],
     [
       reducedScore(element) / element.length,
-      `Team: ${namesList(element).join(", ")}`,
+      `Team: ${join(", ", namesList(element))}`,
     ]
   );
 };
@@ -62,8 +62,8 @@ const getTeamSummaries = async (teamList) => {
   try {
     await delay();
     return map((element) => reduceElement(element), teamList);
-  } catch (e) {
-    console.error("no summary", e);
+  } catch {
+    console.error("no summary");
   }
 };
 
