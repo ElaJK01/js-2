@@ -1,35 +1,30 @@
 import { first } from "../data.js";
-import { flatten, join, map, zipObj } from "ramda";
+import { flatten, join, map, zipObj, length, divide, __, range } from "ramda";
 import { namesList, reducedScore } from "../helpers.js";
 
-const names = flatten(map((el) => namesList(el), first));
+const names = flatten(map(namesList, first));
 
-const shouldThrowError = () => {
-  const number = Math.floor(Math.random() * 10);
-  return number < 1;
-};
+const shouldThrowError = () => Math.floor(Math.random() * 10) < 1;
 
-const delay = () => {
-  return new Promise((resolve, reject) =>
+const oneRandomName = () => names[Math.floor(Math.random() * names.length)];
+
+const zipPlayerWithScore = (el) =>
+  zipObj(["name", "score"], [el, Math.floor(Math.random() * 25)]);
+
+const delay = () =>
+  new Promise((resolve, reject) =>
     setTimeout(
       () => (shouldThrowError() ? reject("network error") : resolve()),
       Math.floor(Math.random() * 2000) + 1000
     )
   );
-};
 
 const getPlayers = async (numberOfPlayers) => {
   try {
     await delay();
-    const players = Array.from(
-      { length: numberOfPlayers },
-      () => names[Math.floor(Math.random() * names.length)]
-    );
+    const players = map(oneRandomName, range(0, numberOfPlayers));
 
-    return map(
-      (el) => zipObj(["name", "score"], [el, Math.floor(Math.random() * 25)]),
-      players
-    );
+    return map(zipPlayerWithScore, players);
   } catch (e) {
     console.error(e);
   }
@@ -39,36 +34,36 @@ const getTeams = async (numberOfPlayers, numberOfTeams) => {
   try {
     await delay();
     return await Promise.all(
-      new Array(numberOfTeams)
-        .fill(0)
-        .map(async () => await getPlayers(numberOfPlayers))
+      map(
+        async () => await getPlayers(numberOfPlayers),
+        range(0, numberOfTeams)
+      )
     );
   } catch {
     console.error("no teams");
   }
 };
 
-const reduceElement = (element) => {
-  return zipObj(
+const reduceElement = (element) =>
+  zipObj(
     ["averageScore", "names"],
     [
-      reducedScore(element) / element.length,
+      divide(reducedScore(element), length(element)),
       `Team: ${join(", ", namesList(element))}`,
     ]
   );
-};
 
 const getTeamSummaries = async (teamList) => {
   try {
     await delay();
-    return map((element) => reduceElement(element), teamList);
+    return map(reduceElement, teamList);
   } catch {
     console.error("no summary");
   }
 };
 
 // console.log(await getPlayers(3));
-
-console.log(await getTeams(2, 3));
-
+//
+// console.log(await getTeams(2, 3));
+//
 console.log(await getTeamSummaries(await getTeams(2, 3)));
