@@ -1,12 +1,24 @@
 import { first } from "../data.js";
-import { flatten, join, map, zipObj, length, divide, __, range } from "ramda";
+import {
+  flatten,
+  join,
+  map,
+  zipObj,
+  length,
+  divide,
+  range,
+  multiply,
+  lt,
+  nth,
+} from "ramda";
 import { namesList, reducedScore } from "../helpers.js";
 
 const names = flatten(map(namesList, first));
 
-const shouldThrowError = () => Math.floor(Math.random() * 10) < 1;
+const shouldThrowError = () => lt(Math.floor(multiply(Math.random(), 10)), 1);
 
-const oneRandomName = () => names[Math.floor(Math.random() * names.length)];
+const oneRandomName = () =>
+  nth(Math.floor(multiply(Math.random(), length(names))), names);
 
 const zipPlayerWithScore = (el) =>
   zipObj(["name", "score"], [el, Math.floor(Math.random() * 25)]);
